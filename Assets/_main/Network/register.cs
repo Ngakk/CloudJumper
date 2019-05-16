@@ -3,30 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-//Hosted on awardspace
-
-public class login : MonoBehaviour
+public class register : MonoBehaviour
 {
     public string usuario;
     public string password;
 
     private void Start()
     {
-        StartCoroutine(IELogin());
+        StartCoroutine(IERegister());
     }
 
-    IEnumerator IELogin()
+    IEnumerator IERegister()
     {
-        //WWWForm permite mandar datos a paginas web
         WWWForm sendData = new WWWForm();
-        //Como se espera en POST del php ,, el dato o informacion a mandar
+
         sendData.AddField("username", usuario);
         sendData.AddField("password", password);
 
-        //Mandamos informacion
-
-        using (UnityWebRequest www = UnityWebRequest.Post("http://virtualmeatball.mygamesonline.org/games/cloud_jumper/php/login.php", sendData))
-        //using (UnityWebRequest www = UnityWebRequest.Get("http://virtualmeatball.mygamesonline.org/games/cloud_jumper/php/login.php"))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://virtualmeatball.mygamesonline.org/games/cloud_jumper/php/register.php", sendData))
+        //using (UnityWebRequest www = UnityWebRequest.Get("http://virtualmeatball.mygamesonline.org/games/cloud_jumper/php/register.php"))
         {
             Debug.Log("Connecting...");
             yield return www.SendWebRequest();
@@ -42,6 +37,4 @@ public class login : MonoBehaviour
             }
         }
     }
-
-    
 }
