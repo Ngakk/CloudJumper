@@ -9,6 +9,9 @@ public class Movement : MonoBehaviour
 
     private Rigidbody rigi;
 
+    public bool UsedJump = false;
+    public int CloudsTouched = -1;
+
     private void Start()
     {
         rigi = GetComponent<Rigidbody>();
@@ -18,9 +21,10 @@ public class Movement : MonoBehaviour
     {
         Move();
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && !UsedJump)
         {
             Jump();
+            UsedJump = true;
         }
     }
 
@@ -45,5 +49,15 @@ public class Movement : MonoBehaviour
         }
 
         rigi.AddForce(Vector3.up * JumpForce);
+
+        CloudsTouched++;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Finish") && UsedJump)
+        {
+            StaticManager.cloudSpawner.SaveStats(CloudsTouched);
+        }
     }
 }

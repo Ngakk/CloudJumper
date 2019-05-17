@@ -6,6 +6,8 @@ public class Follow : MonoBehaviour
 {
     public Transform stalked;
 
+    public float YOffset = 40;
+
     private void Update()
     {
         FollowY();
@@ -13,6 +15,9 @@ public class Follow : MonoBehaviour
 
     private void FollowY()
     {
-        transform.Translate(Vector3.Scale((stalked.position - transform.position), Vector3.up));
+        Vector3 stalkedY = Vector3.Scale(stalked.position, Vector3.up) + Vector3.up * YOffset;
+        Vector3 ownY = Vector3.Scale(transform.position, Vector3.up);
+
+        transform.Translate((stalkedY - ownY));
     }
 }

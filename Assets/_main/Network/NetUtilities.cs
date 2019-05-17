@@ -6,11 +6,14 @@ using UnityEngine.Networking;
 
 public class NetUtilities : MonoBehaviour
 {
-    int id;
-    string usuario;
     char splitter = '◙';
 
     bool waitingResponse = false;
+
+    private void Awake()
+    {
+        StaticManager.netUtilities = this;
+    }
 
     public void Register(string _username, string _password, Action<bool,string> _callback)
     {
@@ -26,6 +29,19 @@ public class NetUtilities : MonoBehaviour
             return;
 
         StartCoroutine(IELogin(_username, _password, _callback));
+    }
+
+    public void Leaderboard(int _page, Action<string[]> _callback)
+    {
+        if (waitingResponse)
+            return;
+
+        StartCoroutine(IELeaderboard(_page, _callback));
+    }
+
+    public void UpdateScore(string _username, int _cloud, int _height)
+    {
+
     }
 
     IEnumerator IERegister(string _username, string _password, Action<bool, string> _callback)
@@ -52,13 +68,15 @@ public class NetUtilities : MonoBehaviour
                 Debug.Log("Form upload complete!");
                 Debug.Log(www.downloadHandler.text);
 
-                if (www.downloadHandler.text == "success")
+                string[] response = www.downloadHandler.text.Split(splitter);
+
+                if (response[0] == "success")
                 {
                     _callback.Invoke(true, String.Empty);
                 }
                 else
                 {
-                    _callback.Invoke(false, "We did something wrong i guess");
+                    _callback.Invoke(false, "Duplicate username");
                 }
             }
         }
@@ -97,15 +115,78 @@ public class NetUtilities : MonoBehaviour
 
                 if (response[0].Equals("success"))
                 {
-                    id = int.Parse(response[1]);
-                    usuario = response[2];
+                    PlayerPrefs.SetString("username", response[1]);
 
-                    _callback.Invoke(true, response[1]);
+                    _callback.Invoke(true, "Login succesfull");
                 }
                 else
                 {
                     _callback.Invoke(false, response[1]);
                 }
+            }
+        }
+
+        waitingResponse = false;
+    }
+    
+    IEnumerator IELeaderboard(int _page, Action<string[]> _callback)
+    {
+        waitingResponse = true;
+
+        //WWWForm permite mandar datos a paginas web
+        WWWForm sendData = new WWWForm();
+        //Como se espera en POST del php ,, el dato o informacion a mandar
+        sendData.AddField("page", _page);
+
+        //Mandamos informacion
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://virtualmeatball.mygamesonline.org/games/cloud_jumper/php/top_scores.php", sendData))
+        {
+            Debug.Log("Connecting...");
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+                _callback.Invoke(new string[] {"empty"});
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+                Debug.Log(www.downloadHandler.text);
+
+                string[] response = www.downloadHandler.text.Split(splitter);
+
+                _callback.Invoke(response);
+            }
+        }
+
+        waitingResponse = false;
+    }
+
+    IEnumerator IEScore(string _username, int _score, int _height)
+    {
+        waitingResponse = true;
+
+        WWWForm sendData = new WWWForm();
+
+        sendData.AddField("username", _username);
+        sendData.AddField("score", _score);
+        sendData.AddField("height", _height);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://virtualmeatball.mygamesonline.org/games/cloud_jumper/php/update_score.php", sendData))
+        {
+            Debug.Log("Connecting...");
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+                Debug.Log(www.downloadHandler.text);
             }
         }
 
