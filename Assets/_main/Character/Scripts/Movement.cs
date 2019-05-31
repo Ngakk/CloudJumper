@@ -47,6 +47,9 @@ public class Movement : MonoBehaviour
         {
             rigi.velocity = new Vector3(rigi.velocity.x, 0, rigi.velocity.z);
         }
+        else{
+            rigi.velocity = new Vector3(rigi.velocity.x, rigi.velocity.y/4, rigi.velocity.z);
+        }
 
         rigi.AddForce(Vector3.up * JumpForce);
 

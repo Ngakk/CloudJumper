@@ -41,7 +41,10 @@ public class NetUtilities : MonoBehaviour
 
     public void UpdateScore(string _username, int _cloud, int _height)
     {
+        if (waitingResponse)
+            return;
 
+        StartCoroutine(IEScore(_username, _cloud, _height));
     }
 
     IEnumerator IERegister(string _username, string _password, Action<bool, string> _callback)
@@ -185,7 +188,7 @@ public class NetUtilities : MonoBehaviour
             }
             else
             {
-                Debug.Log("Form upload complete!");
+                Debug.Log("Update score fomr load complete");
                 Debug.Log(www.downloadHandler.text);
             }
         }

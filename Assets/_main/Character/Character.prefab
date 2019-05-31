@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6053549714969279060}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Velocity: 10
   JumpForce: 400
+  UsedJump: 0
+  CloudsTouched: -1
 --- !u!54 &6053549714969279060
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -74,7 +76,7 @@ GameObject:
   - component: {fileID: 451253798115850241}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +110,7 @@ GameObject:
   - component: {fileID: 2110175167881857973}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

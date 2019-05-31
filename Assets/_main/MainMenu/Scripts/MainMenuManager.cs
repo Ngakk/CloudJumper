@@ -25,6 +25,7 @@ public class MainMenuManager : MonoBehaviour
             {
                 PanelA.SetActive(false);
                 PanelLogedIn.SetActive(true);
+                welcome.text = "Welcome " + PlayerPrefs.GetString("username") + "!";
             }
         }
     }
