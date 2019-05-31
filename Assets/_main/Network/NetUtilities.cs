@@ -156,7 +156,6 @@ public class NetUtilities : MonoBehaviour
             else
             {
                 Debug.Log("Form upload complete!");
-                Debug.Log(www.downloadHandler.text);
 
                 string[] response = www.downloadHandler.text.Split(splitter);
 
@@ -189,7 +188,6 @@ public class NetUtilities : MonoBehaviour
             else
             {
                 Debug.Log("Update score fomr load complete");
-                Debug.Log(www.downloadHandler.text);
             }
         }
 

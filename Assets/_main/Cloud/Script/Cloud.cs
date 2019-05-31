@@ -13,11 +13,10 @@ public class Cloud : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Col");
         if(other.CompareTag("Player"))
         {
-    other.SendMessageUpwards("Jump", SendMessageOptions.DontRequireReceiver);
-        SelfDestroy();
+            other.SendMessageUpwards("Jump", SendMessageOptions.DontRequireReceiver);
+            SelfDestroy();
         }
     }
 

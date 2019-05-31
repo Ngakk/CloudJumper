@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Velocity: 10
   JumpForce: 400
+  speedFalloff: 0.3
   UsedJump: 0
   CloudsTouched: -1
 --- !u!54 &6053549714969279060

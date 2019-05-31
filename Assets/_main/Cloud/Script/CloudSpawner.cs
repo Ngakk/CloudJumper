@@ -62,18 +62,10 @@ public class CloudSpawner : MonoBehaviour
         {
             Vector3 pos = new Vector3(Random.Range(-4.0f, 4.0f), MaxHeight2 + 8 + Random.Range(downset, upset), 0);
             Instantiate(cloudPrefab, pos, Quaternion.identity);
-            Debug.Log("Spawnedcloud");
         }
 
         MaxHeight2 += 4;
     }
-
-    /* void SpawnClouds2(){
-        float next = Random.Range(1.0f, 3.0f);
-
-        Vector3 pos = new Vector3(Random.Range(-4.5f, 4.5f), 8 + Random.Range(downset, upset), 0);
-            Instantiate(cloudPrefab, pos, Quaternion.identity);
-    }*/
 
     public void SaveStats(int cloudsTouched)
     {
