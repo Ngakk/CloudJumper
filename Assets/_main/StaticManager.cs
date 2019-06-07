@@ -6,4 +6,5 @@ public class StaticManager : MonoBehaviour
 {
     public static NetUtilities netUtilities;
     public static CloudSpawner cloudSpawner;
+    public static CloudSpawnerNet cloudSpawnerNet;
 }

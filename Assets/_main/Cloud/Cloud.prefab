@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3123075060747369196}
   - component: {fileID: 5195450848877400360}
   - component: {fileID: 477974425190002295}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 4228634630455110168}
   - component: {fileID: 4478867012654379350}
   - component: {fileID: 2778831210736118627}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eb483dd29dbeff340bc5ca681925ed7f, type: 2}
+  - {fileID: 2100000, guid: 620313ef4c58c0c4aa24e01c40d2beb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

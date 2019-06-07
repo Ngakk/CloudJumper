@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
-{1=2 //TODO cambiar velocidad, hacer que spawnee los 2 jugadores con sus layers y sus mats
-    public float Velocity = 10;
+{
+    public float Velocity = 5;
     public float JumpForce = 10;
     public float speedFalloff = 0.3f;
 
