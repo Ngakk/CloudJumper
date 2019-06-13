@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Movement : MonoBehaviour
+public class MovementNet : NetworkBehaviour
 {
     public float Velocity = 5;
     public float JumpForce = 10;
@@ -10,8 +11,11 @@ public class Movement : MonoBehaviour
 
     private Rigidbody rigi;
 
+    [HideInInspector]
     public bool UsedJump = false;
+    [HideInInspector]
     public bool canJump = true;
+    [HideInInspector]
     public int CloudsTouched = -1;
 
     private void Start()
@@ -21,12 +25,15 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        Move();
-
-        if(Input.GetKeyDown(KeyCode.Space) && !UsedJump && canJump)
+        if (isLocalPlayer) 1=2 //TODO: cambiar de localPlayer a connection number o algo
         {
-            Jump();
-            UsedJump = true;
+            Move();
+
+            if (Input.GetKeyDown(KeyCode.Space) && !UsedJump && canJump)
+            {
+                Jump();
+                UsedJump = true;
+            }
         }
     }
 

@@ -6,12 +6,12 @@ using UnityEngine.Networking;
 
 public class CloudSpawnerNet : NetworkBehaviour
 {
-    public Movement player;
-    public Movement player2;
+    public MovementNet player;
+    public MovementNet player2;
     public GameEndUI ui;
-    public GameObject cloudPrefab;
-    public GameObject cloudPrefab2;
+    public GameObject cloudNetPrefab;
     private float StartingPos = 0.0f;
+    private float StartingPos2 = 0.0f;
     private float MaxHeight = 0.0f;
     private float MaxHeight2 = 0.0f;
     float MaxHeight3 = 2.0f;
@@ -25,7 +25,7 @@ public class CloudSpawnerNet : NetworkBehaviour
 
     private void Start()
     {
-        
+        ui.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -35,31 +35,33 @@ public class CloudSpawnerNet : NetworkBehaviour
             MaxHeight = player.transform.position.y;
         }
         
-        if(MaxHeight2 < player.transform.position.y)
+        if(MaxHeight2 < player2.transform.position.y)
         {
-            SpawnClouds();
+            MaxHeight2 = player2.transform.position.y;
         }
     }
 
     public void StartGame()
     {
         StartingPos = player.transform.position.y;
-        ui.gameObject.SetActive(false);
+        StartingPos2 = player2.transform.position.y;
+        
 
+        MaxHeight = -4;
         MaxHeight2 = -4;
         SpawnClouds();
     }
 
     public void SpawnClouds()
     {    
-        float t = (MaxHeight2 > 100 ? 100 : MaxHeight2)/100.0f;
+        float t = (MaxHeight > 100 ? 100 : MaxHeight) /100.0f;
         if(t < 0)
             t = 0;
 
         float downset = Mathf.Lerp(t, -4.0f, 0.0f);
         float upset = Mathf.Lerp(t, 4.0f, 8.0f);
 
-        float height_many = 100 - (MaxHeight2 > 100 ? 100 : MaxHeight2);
+        float height_many = 100 - (MaxHeight > 100 ? 100 : MaxHeight);
 
         if(height_many< 0)
             height_many = 0;
@@ -68,13 +70,14 @@ public class CloudSpawnerNet : NetworkBehaviour
 
         for(int i = 0; i < how_many; i++)
         {
-            Vector3 pos = new Vector3(Random.Range(-4.0f, 4.0f), MaxHeight2 + 8 + Random.Range(downset, upset), 0);
-            GameObject go = Instantiate(cloudPrefab, pos, Quaternion.identity);
+            Vector3 pos = new Vector3(Random.Range(-4.0f, 4.0f), MaxHeight + 8 + Random.Range(downset, upset), 0);
+            GameObject go = Instantiate(cloudNetPrefab, pos, Quaternion.identity);
+            go.GetComponent<CloudNet>().playerToFollow = player;
 
             NetworkServer.Spawn(go);
         }
 
-        MaxHeight2 += 4;
+        MaxHeight += 4;
     }
 
     public void SaveStats(int cloudsTouched)

@@ -21,7 +21,7 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - _Expandong: 100
-    - _Transparency: 0.71
+    - _Transparency: 0.5
     m_Colors:
     - _DeepSpaceBlue: {r: 0.03, g: 0.015, b: 0.415, a: 1}
     - _ForeGroundColor: {r: 0.9433962, g: 0.9433962, b: 0.9433962, a: 1}

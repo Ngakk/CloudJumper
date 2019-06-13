@@ -33,6 +33,46 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &8137536133312051134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865931119940219140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.033333335
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &464582605632686430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865931119940219140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 205eea4d43cb34b44a4264ba2b031402, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Velocity: 10
+  JumpForce: 400
+  speedFalloff: 0.5
+  UsedJump: 0
+  canJump: 1
+  CloudsTouched: -1
 --- !u!1001 &3699204545398303573
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43,7 +83,12 @@ PrefabInstance:
     - target: {fileID: 3076847607559739985, guid: 3cc452b7bd428564da73a119a56fea0f,
         type: 3}
       propertyPath: m_Name
-      value: Character2
+      value: CharacterNet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3076847607559739985, guid: 3cc452b7bd428564da73a119a56fea0f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5906983862782543125, guid: 3cc452b7bd428564da73a119a56fea0f,
         type: 3}
@@ -135,8 +180,19 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 13f16ffbd6dbb50418d55dfdf48b5353, type: 2}
+    - target: {fileID: 4194175465016557375, guid: 3cc452b7bd428564da73a119a56fea0f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7193136430203642845, guid: 3cc452b7bd428564da73a119a56fea0f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7145589046906642364, guid: 3cc452b7bd428564da73a119a56fea0f, type: 3}
+    - {fileID: 8315239299451981256, guid: 3cc452b7bd428564da73a119a56fea0f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3cc452b7bd428564da73a119a56fea0f, type: 3}
 --- !u!1 &1865931119940219140 stripped
 GameObject:

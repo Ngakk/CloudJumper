@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Cloud : MonoBehaviour
+public class CloudNet : NetworkBehaviour
 {
 
-    public Movement playerToFollow;
+    public MovementNet playerToFollow;
 
     private void Update() {
         if(playerToFollow.transform.position.y - 8 > transform.position.y){

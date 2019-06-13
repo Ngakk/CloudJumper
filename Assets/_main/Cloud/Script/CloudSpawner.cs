@@ -61,7 +61,8 @@ public class CloudSpawner : MonoBehaviour
         for(int i = 0; i < how_many; i++)
         {
             Vector3 pos = new Vector3(Random.Range(-4.0f, 4.0f), MaxHeight2 + 8 + Random.Range(downset, upset), 0);
-            Instantiate(cloudPrefab, pos, Quaternion.identity);
+            Cloud go = Instantiate(cloudPrefab, pos, Quaternion.identity).GetComponent<Cloud>();
+            go.playerToFollow = player;
         }
 
         MaxHeight2 += 4;
