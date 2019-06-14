@@ -10,7 +10,8 @@ public class Follow : MonoBehaviour
 
     private void Update()
     {
-        FollowY();
+        if(stalked != null)
+            FollowY();
     }
 
     private void FollowY()

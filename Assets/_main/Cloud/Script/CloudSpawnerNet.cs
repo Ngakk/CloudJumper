@@ -30,14 +30,20 @@ public class CloudSpawnerNet : NetworkBehaviour
 
     private void Update()
     {
-        if(MaxHeight < player.transform.position.y)
+        if (player != null)
         {
-            MaxHeight = player.transform.position.y;
+            if (MaxHeight < player.transform.position.y)
+            {
+                MaxHeight = player.transform.position.y;
+            }
         }
-        
-        if(MaxHeight2 < player2.transform.position.y)
+
+        if (player2 != null)
         {
-            MaxHeight2 = player2.transform.position.y;
+            if (MaxHeight2 < player2.transform.position.y)
+            {
+                MaxHeight2 = player2.transform.position.y;
+            }
         }
     }
 

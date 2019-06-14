@@ -5,9 +5,12 @@ using UnityEngine.Networking;
 
 public class MovementNet : NetworkBehaviour
 {
+    public GameObject mainModel, transparentModel;
     public float Velocity = 5;
     public float JumpForce = 10;
     public float speedFalloff = 0.3f;
+    public int playerId;
+    private int connectionId;
 
     private Rigidbody rigi;
 
@@ -21,11 +24,58 @@ public class MovementNet : NetworkBehaviour
     private void Start()
     {
         rigi = GetComponent<Rigidbody>();
+
+        if (isLocalPlayer)
+        {
+            print("is local");
+            mainModel.SetActive(true);
+            transparentModel.SetActive(false);
+
+            gameObject.layer = 9;
+            ChangeChildLayers(transform, 9);
+        }
     }
+
+    private void ChangeChildLayers(Transform _parent, int _layer)
+    {
+        for(int i = 0; i < _parent.childCount; i++)
+        {
+            Transform child = _parent.GetChild(i);
+            child.gameObject.layer = _layer;
+            ChangeChildLayers(child, _layer);
+        }
+    }
+
+    public override void OnStartClient()
+    {
+        /*if (isLocalPlayer)
+        {
+            print("is local");
+            mainModel.SetActive(true);
+            transparentModel.SetActive(false);
+            gameObject.layer = 9;
+        }
+        else
+        {
+            print("is not local");
+            mainModel.SetActive(false);
+            transparentModel.SetActive(true);
+            gameObject.layer = 10;
+        }*/
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        /*print("is local");
+        mainModel.SetActive(true);
+        transparentModel.SetActive(false);
+        gameObject.layer = 9;*/
+    }
+
 
     void Update()
     {
-        if (isLocalPlayer) 1=2 //TODO: cambiar de localPlayer a connection number o algo
+        if (isLocalPlayer) //TODO: cambiar de localPlayer a connection number o algo
         {
             Move();
 
