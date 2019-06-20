@@ -5,12 +5,42 @@ using UnityEngine.Networking;
 
 public class CloudNet : NetworkBehaviour
 {
-
     public MovementNet playerToFollow;
 
+    public GameObject mainModel, transparentModel;
+
+    private void Start()
+    {
+        if (isLocalPlayer)
+        {
+            print("is local");
+            mainModel.SetActive(true);
+            transparentModel.SetActive(false);
+
+            gameObject.layer = 9;
+            ChangeChildLayers(transform, 9);
+        }
+
+        playerToFollow = StaticManager.localPlayer;
+    }
+
+    private void ChangeChildLayers(Transform _parent, int _layer)
+    {
+        for (int i = 0; i < _parent.childCount; i++)
+        {
+            Transform child = _parent.GetChild(i);
+            child.gameObject.layer = _layer;
+            ChangeChildLayers(child, _layer);
+        }
+    }
+
     private void Update() {
-        if(playerToFollow.transform.position.y - 8 > transform.position.y){
-            SelfDestroy();
+        if (playerToFollow != null)
+        {
+            if (playerToFollow.transform.position.y - 8 > transform.position.y)
+            {
+                SelfDestroy();
+            }
         }
     }
 

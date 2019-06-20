@@ -21,19 +21,39 @@ public class MovementNet : NetworkBehaviour
     [HideInInspector]
     public int CloudsTouched = -1;
 
+    private void Awake()
+    {
+        if(isLocalPlayer)
+        {
+            StaticManager.localPlayer = this;
+        }
+    }
+
     private void Start()
     {
         rigi = GetComponent<Rigidbody>();
 
         if (isLocalPlayer)
         {
+
             print("is local");
             mainModel.SetActive(true);
             transparentModel.SetActive(false);
 
             gameObject.layer = 9;
             ChangeChildLayers(transform, 9);
+
+            if(StaticManager.cloudSpawnerNet.player == null)
+                StaticManager.cloudSpawnerNet.player = this;
+
+            Camera.main.GetComponent<Follow>().stalked = transform;
         }
+    }
+
+    public override void OnStartClient()
+    {
+        if (isLocalPlayer)
+            StaticManager.cloudSpawnerNet.StartGame();
     }
 
     private void ChangeChildLayers(Transform _parent, int _layer)
@@ -46,36 +66,10 @@ public class MovementNet : NetworkBehaviour
         }
     }
 
-    public override void OnStartClient()
-    {
-        /*if (isLocalPlayer)
-        {
-            print("is local");
-            mainModel.SetActive(true);
-            transparentModel.SetActive(false);
-            gameObject.layer = 9;
-        }
-        else
-        {
-            print("is not local");
-            mainModel.SetActive(false);
-            transparentModel.SetActive(true);
-            gameObject.layer = 10;
-        }*/
-    }
-
-    public override void OnStartLocalPlayer()
-    {
-        /*print("is local");
-        mainModel.SetActive(true);
-        transparentModel.SetActive(false);
-        gameObject.layer = 9;*/
-    }
-
 
     void Update()
     {
-        if (isLocalPlayer) //TODO: cambiar de localPlayer a connection number o algo
+        if (isLocalPlayer)
         {
             Move();
 
@@ -118,7 +112,7 @@ public class MovementNet : NetworkBehaviour
     {
         if(collision.gameObject.CompareTag("Finish") && UsedJump)
         {
-            StaticManager.cloudSpawner.SaveStats(CloudsTouched);
+            StaticManager.cloudSpawnerNet.SaveStats(CloudsTouched);
         }
     }
 }

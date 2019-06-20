@@ -1246,6 +1246,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5195450848877400360, guid: 73a45ad9d5c642941b965d239dca80d4,
+        type: 3}
+      propertyPath: playerToFollow
+      value: 
+      objectReference: {fileID: 1816376516}
     - target: {fileID: 7822410096237500647, guid: 73a45ad9d5c642941b965d239dca80d4,
         type: 3}
       propertyPath: m_Layer
@@ -1723,6 +1728,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6053549714969279060, guid: 3cc452b7bd428564da73a119a56fea0f,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593582206908254153, guid: 3cc452b7bd428564da73a119a56fea0f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 13f16ffbd6dbb50418d55dfdf48b5353, type: 2}
     - target: {fileID: 8315239299451981256, guid: 3cc452b7bd428564da73a119a56fea0f,
         type: 3}
       propertyPath: speedFalloff
@@ -1748,16 +1763,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 1.2
       objectReference: {fileID: 0}
-    - target: {fileID: 6053549714969279060, guid: 3cc452b7bd428564da73a119a56fea0f,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 8593582206908254153, guid: 3cc452b7bd428564da73a119a56fea0f,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 13f16ffbd6dbb50418d55dfdf48b5353, type: 2}
     m_RemovedComponents:
     - {fileID: 7145589046906642364, guid: 3cc452b7bd428564da73a119a56fea0f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3cc452b7bd428564da73a119a56fea0f, type: 3}

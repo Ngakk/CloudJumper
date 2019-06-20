@@ -43,7 +43,8 @@ public class CloudSpawner : MonoBehaviour
     }
 
     public void SpawnClouds()
-    {    
+    {
+        Debug.Log("Spawning clouds");
         float t = (MaxHeight2 > 100 ? 100 : MaxHeight2)/100.0f;
         if(t < 0)
             t = 0;
@@ -74,7 +75,6 @@ public class CloudSpawner : MonoBehaviour
         ui.SetTexts(player.CloudsTouched.ToString(), ((int)(MaxHeight-StartingPos)).ToString());
         StaticManager.netUtilities.UpdateScore(PlayerPrefs.GetString("username"), player.CloudsTouched, (int)(MaxHeight-StartingPos));
         Debug.Log("Savestats");
-        
     }
 
     public void ToMainMenu(){
