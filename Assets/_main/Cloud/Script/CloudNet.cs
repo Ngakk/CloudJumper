@@ -13,7 +13,6 @@ public class CloudNet : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            print("is local");
             mainModel.SetActive(true);
             transparentModel.SetActive(false);
 
@@ -21,6 +20,11 @@ public class CloudNet : NetworkBehaviour
             ChangeChildLayers(transform, 9);
         }
 
+        playerToFollow = StaticManager.localPlayer;
+    }
+
+    public override void OnStartClient()
+    {
         playerToFollow = StaticManager.localPlayer;
     }
 

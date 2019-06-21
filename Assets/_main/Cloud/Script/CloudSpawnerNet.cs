@@ -30,7 +30,7 @@ public class CloudSpawnerNet : NetworkBehaviour
     public void StartGame()
     {
         StartingPos = player.transform.position.y;
-        MaxHeight2 = -4;
+        MaxHeight2 = -8;
         Cmd_SpawnClouds();
     }
 

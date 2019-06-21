@@ -11,6 +11,9 @@ public class MovementNet : NetworkBehaviour
     public float speedFalloff = 0.3f;
     public int playerId;
     private int connectionId;
+    public MovementNet otherPlayer;
+    private bool otherLost = false, iLost = false;
+    bool bandera;
 
     private Rigidbody rigi;
 
@@ -20,14 +23,6 @@ public class MovementNet : NetworkBehaviour
     public bool canJump = true;
     [HideInInspector]
     public int CloudsTouched = -1;
-
-    private void Awake()
-    {
-        if(isLocalPlayer)
-        {
-            StaticManager.localPlayer = this;
-        }
-    }
 
     private void Start()
     {
@@ -39,22 +34,42 @@ public class MovementNet : NetworkBehaviour
             print("is local");
             mainModel.SetActive(true);
             transparentModel.SetActive(false);
-
+            
             gameObject.layer = 9;
             ChangeChildLayers(transform, 9);
 
-            if(StaticManager.cloudSpawnerNet.player == null)
-                StaticManager.cloudSpawnerNet.player = this;
-
             Camera.main.GetComponent<Follow>().stalked = transform;
+            
+            StaticManager.localPlayer = this;
+            
+            StaticManager.cloudSpawnerNet.player = this;
         }
     }
 
     public override void OnStartClient()
     {
         if (isLocalPlayer)
+        {
             StaticManager.cloudSpawnerNet.StartGame();
+        }
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        Debug.Log("Found " + players.Length + " player(s)");
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            MovementNet movenet = players[i].GetComponent<MovementNet>();
+            if (!movenet.isLocalPlayer)
+            {
+                otherPlayer = movenet;
+                movenet.otherPlayer = this;
+                break;
+            }
+        }
+
     }
+
 
     private void ChangeChildLayers(Transform _parent, int _layer)
     {
@@ -65,15 +80,14 @@ public class MovementNet : NetworkBehaviour
             ChangeChildLayers(child, _layer);
         }
     }
-
-
+    
     void Update()
     {
         if (isLocalPlayer)
         {
             Move();
 
-            if (Input.GetKeyDown(KeyCode.Space) && !UsedJump && canJump)
+            if (Input.GetKeyDown(KeyCode.Space) && !UsedJump && canJump && otherPlayer != null)
             {
                 Jump();
                 UsedJump = true;
@@ -107,12 +121,33 @@ public class MovementNet : NetworkBehaviour
 
         CloudsTouched++;
     }
+    
+    public void OtherPlayerLost()
+    {
+        otherLost = true;
+        if(iLost)
+        {
+            StaticManager.cloudSpawnerNet.SaveStats(CloudsTouched);
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Finish") && UsedJump)
         {
-            StaticManager.cloudSpawnerNet.SaveStats(CloudsTouched);
+            otherPlayer.OtherPlayerLost();
+            iLost = true;
+            if (otherLost)
+            {
+                StaticManager.cloudSpawnerNet.SaveStats(CloudsTouched);
+            }
+            else
+            {
+                if(isLocalPlayer)
+                {
+                    Camera.main.GetComponent<Follow>().stalked = transform;
+                }
+            }
         }
     }
 }
