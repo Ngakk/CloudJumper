@@ -9,9 +9,11 @@ public class CloudNet : NetworkBehaviour
 
     public GameObject mainModel, transparentModel;
 
+    public bool instantiator;
+
     private void Start()
     {
-        if (isLocalPlayer)
+        if (instantiator)
         {
             mainModel.SetActive(true);
             transparentModel.SetActive(false);

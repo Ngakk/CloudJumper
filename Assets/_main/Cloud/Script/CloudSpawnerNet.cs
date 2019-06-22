@@ -31,27 +31,27 @@ public class CloudSpawnerNet : NetworkBehaviour
     {
         StartingPos = player.transform.position.y;
         MaxHeight2 = -8;
-        Cmd_SpawnClouds();
+        Cmd_SpawnClouds(isLocalPlayer);
     }
 
     private void Update()
     {
-        if (player != null)
+        if (player != null && player.otherPlayer != null)
         {
-            if (MaxHeight < player.transform.position.y)
+            if (MaxHeight < Mathf.Max(player.transform.position.y, player.otherPlayer.transform.position.y))
             {
-                MaxHeight = player.transform.position.y;
+                MaxHeight = Mathf.Max(player.transform.position.y, player.otherPlayer.transform.position.y);
             }
 
-            if (MaxHeight2 < player.transform.position.y)
+            if (MaxHeight2 < Mathf.Max(player.transform.position.y, player.otherPlayer.transform.position.y))
             {
-                Cmd_SpawnClouds();
+                Cmd_SpawnClouds(isLocalPlayer);
             }
         }
     }
 
     [Command]
-    public void Cmd_SpawnClouds()
+    public void Cmd_SpawnClouds(bool _inst)
     {
         Debug.Log("Spawning clouds");
         float t = (MaxHeight2 > 100 ? 100 : MaxHeight2) / 100.0f;
@@ -72,6 +72,8 @@ public class CloudSpawnerNet : NetworkBehaviour
         {
             Vector3 pos = new Vector3(Random.Range(-4.0f, 4.0f), MaxHeight2 + 8 + Random.Range(downset, upset), 0);
             GameObject go = Instantiate(cloudPrefab, pos, Quaternion.identity);
+            
+            go.GetComponent<CloudNet>().instantiator = _inst;
 
             NetworkServer.Spawn(go);
         }

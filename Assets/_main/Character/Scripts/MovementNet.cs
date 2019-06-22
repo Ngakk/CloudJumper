@@ -44,6 +44,8 @@ public class MovementNet : NetworkBehaviour
             
             StaticManager.cloudSpawnerNet.player = this;
         }
+
+        Cmd_SendSearchPlayers();
     }
 
     public override void OnStartClient()
@@ -53,6 +55,26 @@ public class MovementNet : NetworkBehaviour
             StaticManager.cloudSpawnerNet.StartGame();
         }
 
+    }
+
+    [Command]
+    public void Cmd_SendSearchPlayers()
+    {
+        Rpc_SearchPlayers();
+    }
+
+    [ClientRpc]
+    void Rpc_SearchPlayers()
+    {
+        Invoke("SearchPlayers", 1f);
+    }
+
+    void SearchPlayers()
+    {
+
+        if(otherPlayer != null)
+            return;
+
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
         Debug.Log("Found " + players.Length + " player(s)");
@@ -60,16 +82,16 @@ public class MovementNet : NetworkBehaviour
         for (int i = 0; i < players.Length; i++)
         {
             MovementNet movenet = players[i].GetComponent<MovementNet>();
-            if (!movenet.isLocalPlayer)
+            if(movenet != null)
             {
-                otherPlayer = movenet;
-                movenet.otherPlayer = this;
-                break;
+                if (!movenet.isLocalPlayer && movenet != this)
+                {
+                    otherPlayer = movenet;
+                    break;
+                }
             }
         }
-
     }
-
 
     private void ChangeChildLayers(Transform _parent, int _layer)
     {
@@ -83,6 +105,11 @@ public class MovementNet : NetworkBehaviour
     
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Space) && otherPlayer == null)
+        {
+            SearchPlayers();
+        }
+
         if (isLocalPlayer)
         {
             Move();
@@ -93,6 +120,8 @@ public class MovementNet : NetworkBehaviour
                 UsedJump = true;
             }
         }
+
+        
     }
 
     private void Move()
@@ -101,14 +130,11 @@ public class MovementNet : NetworkBehaviour
 
         float dir = screenPointX - transform.position.x;
 
-        //transform.position += Vector3.right * dir * Time.deltaTime * Velocity;
-
         rigi.velocity = new Vector3(dir * Velocity, rigi.velocity.y, rigi.velocity.z);
     }
 
     private void Jump()
     {
-        
         if(rigi.velocity.y < 0)
         {
             rigi.velocity = new Vector3(rigi.velocity.x, 0, rigi.velocity.z);
@@ -145,7 +171,7 @@ public class MovementNet : NetworkBehaviour
             {
                 if(isLocalPlayer)
                 {
-                    Camera.main.GetComponent<Follow>().stalked = transform;
+                    Camera.main.GetComponent<Follow>().stalked = otherPlayer.transform;
                 }
             }
         }
