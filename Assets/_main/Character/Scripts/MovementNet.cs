@@ -30,7 +30,6 @@ public class MovementNet : NetworkBehaviour
 
         if (isLocalPlayer)
         {
-
             print("is local");
             mainModel.SetActive(true);
             transparentModel.SetActive(false);
@@ -54,8 +53,9 @@ public class MovementNet : NetworkBehaviour
         {
             StaticManager.cloudSpawnerNet.StartGame();
         }
-
+        
     }
+    
 
     [Command]
     public void Cmd_SendSearchPlayers()

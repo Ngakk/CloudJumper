@@ -1028,11 +1028,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CloudNet (3)
       objectReference: {fileID: 0}
-    - target: {fileID: 6300310045069054156, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 3123075060747369196, guid: 221cf44aad179e249b3cf67d859908b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1087,41 +1082,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8290438970580227344, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7822410096237500647, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7313036249522567530, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7313036249522567530, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1435936387486663053, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1435936387486663053, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386992258120796851, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 221cf44aad179e249b3cf67d859908b4, type: 3}
@@ -1406,6 +1366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc8bd36fb4b5274ebb61eb928c17cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myId: 0
   player: {fileID: 0}
   ui: {fileID: 2079324619}
   cloudPrefab: {fileID: 6300310045069054156, guid: 221cf44aad179e249b3cf67d859908b4,
@@ -1508,11 +1469,6 @@ PrefabInstance:
     - target: {fileID: 3123075060747369196, guid: 221cf44aad179e249b3cf67d859908b4,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8290438970580227344, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1690,11 +1646,6 @@ PrefabInstance:
     - target: {fileID: 3123075060747369196, guid: 221cf44aad179e249b3cf67d859908b4,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8290438970580227344, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1875,11 +1826,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CloudNet (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 6300310045069054156, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 3123075060747369196, guid: 221cf44aad179e249b3cf67d859908b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1934,41 +1880,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8290438970580227344, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7822410096237500647, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7313036249522567530, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7313036249522567530, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1435936387486663053, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1435936387486663053, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4386992258120796851, guid: 221cf44aad179e249b3cf67d859908b4,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 221cf44aad179e249b3cf67d859908b4, type: 3}

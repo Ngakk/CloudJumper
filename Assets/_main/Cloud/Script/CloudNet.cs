@@ -9,11 +9,21 @@ public class CloudNet : NetworkBehaviour
 
     public GameObject mainModel, transparentModel;
 
-    public bool instantiator;
+    public int instantiator;
 
     private void Start()
     {
-        if (instantiator)
+        //playerToFollow = StaticManager.localPlayer;
+    }
+
+    public override void OnStartClient()
+    {
+        //playerToFollow = StaticManager.localPlayer;
+    }
+
+    public void SetIsMain(bool _b)
+    {
+        if (_b)
         {
             mainModel.SetActive(true);
             transparentModel.SetActive(false);
@@ -21,13 +31,14 @@ public class CloudNet : NetworkBehaviour
             gameObject.layer = 9;
             ChangeChildLayers(transform, 9);
         }
+        else
+        {
+            mainModel.SetActive(false);
+            transparentModel.SetActive(true);
 
-        playerToFollow = StaticManager.localPlayer;
-    }
-
-    public override void OnStartClient()
-    {
-        playerToFollow = StaticManager.localPlayer;
+            gameObject.layer = 10;
+            ChangeChildLayers(transform, 10);
+        }
     }
 
     private void ChangeChildLayers(Transform _parent, int _layer)
@@ -45,7 +56,7 @@ public class CloudNet : NetworkBehaviour
         {
             if (playerToFollow.transform.position.y - 8 > transform.position.y)
             {
-                SelfDestroy();
+                Cmd_SelfDestroy();
             }
         }
     }
@@ -55,11 +66,14 @@ public class CloudNet : NetworkBehaviour
         if(other.CompareTag("Player"))
         {
             other.SendMessageUpwards("Jump", SendMessageOptions.DontRequireReceiver);
-            SelfDestroy();
+            mainModel.SetActive(false);
+            transparentModel.SetActive(false);
+            Cmd_SelfDestroy();
         }
     }
 
-    void SelfDestroy()
+    [Command]
+    void Cmd_SelfDestroy()
     {
         Destroy(gameObject);
     }

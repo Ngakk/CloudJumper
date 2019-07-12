@@ -6,13 +6,17 @@ using UnityEngine.Networking;
 
 public class CloudSpawnerNet : NetworkBehaviour
 {
+    public static int playerConId = 0;
+
+    public int myId = 0;
     public MovementNet player;
     public GameEndUI ui;
     public GameObject cloudPrefab;
     private float StartingPos = 0.0f;
     private float MaxHeight = 0.0f;
     private float MaxHeight2 = 0.0f;
-    float MaxHeight3 = 2.0f;
+    private float MaxHeight3 = 0.0f;
+    private float MaxHeight4 = 0.0f;
     private float NextCloudDistance = 2.0f;
     private bool SavedStats = false;
 
@@ -23,45 +27,68 @@ public class CloudSpawnerNet : NetworkBehaviour
 
     private void Start()
     {
-        
         ui.gameObject.SetActive(false);
+        playerConId = myId;
     }
 
     public void StartGame()
     {
         StartingPos = player.transform.position.y;
         MaxHeight2 = -8;
-        Cmd_SpawnClouds(isLocalPlayer);
+        MaxHeight4 = -8;
+        Cmd_SpawnClouds(true);
     }
 
     private void Update()
     {
-        if (player != null && player.otherPlayer != null)
+        if (hasAuthority)
         {
-            if (MaxHeight < Mathf.Max(player.transform.position.y, player.otherPlayer.transform.position.y))
+            if (player != null)
             {
-                MaxHeight = Mathf.Max(player.transform.position.y, player.otherPlayer.transform.position.y);
+                if (MaxHeight < player.transform.position.y)
+                {
+                    MaxHeight = player.transform.position.y;
+                }
+
+                if (MaxHeight2 <player.transform.position.y)
+                {
+                    Cmd_SpawnClouds(true);
+                }
+
+
+
+                if (player.otherPlayer != null)
+                {
+                    if (MaxHeight3 < player.otherPlayer.transform.position.y)
+                    {
+                        MaxHeight3 = player.otherPlayer.transform.position.y;
+                    }
+
+                    if (MaxHeight4 < player.otherPlayer.transform.position.y)
+                    {
+                        Cmd_SpawnClouds(false);
+                    }
+                }
             }
 
-            if (MaxHeight2 < Mathf.Max(player.transform.position.y, player.otherPlayer.transform.position.y))
-            {
-                Cmd_SpawnClouds(isLocalPlayer);
-            }
+            
         }
     }
 
     [Command]
-    public void Cmd_SpawnClouds(bool _inst)
+    public void Cmd_SpawnClouds(bool _b)
     {
         Debug.Log("Spawning clouds");
-        float t = (MaxHeight2 > 100 ? 100 : MaxHeight2) / 100.0f;
+        float t_height = _b ? MaxHeight2 : MaxHeight4;
+
+        float t = (t_height > 100 ? 100 : t_height) / 100.0f;
         if (t < 0)
             t = 0;
 
         float downset = Mathf.Lerp(t, -4.0f, 0.0f);
         float upset = Mathf.Lerp(t, 4.0f, 8.0f);
 
-        float height_many = 100 - (MaxHeight2 > 100 ? 100 : MaxHeight2);
+        float height_many = 100 - (t_height > 100 ? 100 : t_height);
 
         if (height_many < 0)
             height_many = 0;
@@ -70,15 +97,22 @@ public class CloudSpawnerNet : NetworkBehaviour
 
         for (int i = 0; i < how_many; i++)
         {
-            Vector3 pos = new Vector3(Random.Range(-4.0f, 4.0f), MaxHeight2 + 8 + Random.Range(downset, upset), 0);
+            Vector3 pos = new Vector3(Random.Range(-4.0f, 4.0f), t_height + 8 + Random.Range(downset, upset), 0);
             GameObject go = Instantiate(cloudPrefab, pos, Quaternion.identity);
-            
-            go.GetComponent<CloudNet>().instantiator = _inst;
+
+            CloudNet temp = go.GetComponent<CloudNet>();
+            temp.SetIsMain(_b);
+            temp.playerToFollow = _b ? player : player.otherPlayer;
 
             NetworkServer.Spawn(go);
         }
 
-        MaxHeight2 += 4;
+        t_height += 4;
+
+        if (_b)
+            MaxHeight2 = t_height;
+        else
+            MaxHeight4 = t_height;
     }
 
     public void SaveStats(int cloudsTouched)
