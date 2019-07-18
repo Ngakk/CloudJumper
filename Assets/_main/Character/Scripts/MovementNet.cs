@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class MovementNet : NetworkBehaviour
 {
@@ -40,22 +41,40 @@ public class MovementNet : NetworkBehaviour
             Camera.main.GetComponent<Follow>().stalked = transform;
             
             StaticManager.localPlayer = this;
-            
-            StaticManager.cloudSpawnerNet.player = this;
+
+            SceneManager.sceneLoaded += OnLevelLoad;
         }
 
-        Cmd_SendSearchPlayers();
+        if(!isServer)
+            Cmd_SendSearchPlayers();
     }
 
-    public override void OnStartClient()
+    private void OnDestroy()
     {
-        if (isLocalPlayer)
-        {
-            StaticManager.cloudSpawnerNet.StartGame();
-        }
-        
+        SceneManager.sceneLoaded -= OnLevelLoad;
     }
-    
+
+
+
+    private void OnLevelLoad(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.buildIndex == 2)
+        {
+            Invoke("Initialize", 0.3f);
+            Invoke("CallStartGame", 0.6f);
+        }
+    }
+
+    private void Initialize()
+    {
+        StaticManager.cloudSpawnerNet.player = this;
+    }
+
+    private void CallStartGame()
+    {
+        StaticManager.cloudSpawnerNet.StartGame();
+    }
+
 
     [Command]
     public void Cmd_SendSearchPlayers()
@@ -66,7 +85,8 @@ public class MovementNet : NetworkBehaviour
     [ClientRpc]
     void Rpc_SearchPlayers()
     {
-        Invoke("SearchPlayers", 1f);
+        SearchPlayers();
+        //Invoke("SearchPlayers", 1f);
     }
 
     void SearchPlayers()
@@ -77,20 +97,28 @@ public class MovementNet : NetworkBehaviour
 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-        Debug.Log("Found " + players.Length + " player(s)");
+        //Debug.Log("Found " + players.Length + " player(s)");
 
+        bool bandera = true;
         for (int i = 0; i < players.Length; i++)
         {
             MovementNet movenet = players[i].GetComponent<MovementNet>();
             if(movenet != null)
             {
-                if (!movenet.isLocalPlayer && movenet != this)
+                print(!movenet.isLocalPlayer);
+                print(movenet != this);
+                if (movenet != this)
                 {
                     otherPlayer = movenet;
+                    otherPlayer.otherPlayer = this;
+                    Debug.Log("Found the other player");
+                    bandera = false;
                     break;
                 }
             }
         }
+        if(bandera)
+            Debug.Log("Didn't Found the other player");
     }
 
     private void ChangeChildLayers(Transform _parent, int _layer)
@@ -105,10 +133,10 @@ public class MovementNet : NetworkBehaviour
     
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && otherPlayer == null)
+        /*if(Input.GetKeyDown(KeyCode.Space) && otherPlayer == null)
         {
             SearchPlayers();
-        }
+        }*/
 
         if (isLocalPlayer)
         {

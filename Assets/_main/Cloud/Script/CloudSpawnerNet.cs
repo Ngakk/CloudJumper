@@ -22,6 +22,7 @@ public class CloudSpawnerNet : NetworkBehaviour
 
     private void Awake()
     {
+        Debug.Log("Setting cloud spawner ");
         StaticManager.cloudSpawnerNet = this;
     }
 
@@ -70,15 +71,12 @@ public class CloudSpawnerNet : NetworkBehaviour
                     }
                 }
             }
-
-            
         }
     }
 
     [Command]
     public void Cmd_SpawnClouds(bool _b)
     {
-        Debug.Log("Spawning clouds");
         float t_height = _b ? MaxHeight2 : MaxHeight4;
 
         float t = (t_height > 100 ? 100 : t_height) / 100.0f;

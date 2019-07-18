@@ -63,12 +63,15 @@ public class CloudNet : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             other.SendMessageUpwards("Jump", SendMessageOptions.DontRequireReceiver);
             mainModel.SetActive(false);
             transparentModel.SetActive(false);
-            Cmd_SelfDestroy();
+            if (hasAuthority)
+            {
+                Cmd_SelfDestroy();
+            }
         }
     }
 

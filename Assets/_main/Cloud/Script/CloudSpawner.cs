@@ -17,6 +17,7 @@ public class CloudSpawner : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Setting cloud spawner");
         StaticManager.cloudSpawner = this;
     }
 
