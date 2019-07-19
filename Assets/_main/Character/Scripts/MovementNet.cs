@@ -43,10 +43,19 @@ public class MovementNet : NetworkBehaviour
             StaticManager.localPlayer = this;
 
             SceneManager.sceneLoaded += OnLevelLoad;
+            if (isLocalPlayer)
+                StaticManager.cloudSpawnerNet.player = this;
+
+            /*Invoke("Initialize", 0.6f);
+            Invoke("CallStartGame", 0.9f);*/
         }
 
-        if(!isServer)
+        if (!isServer)
             Cmd_SendSearchPlayers();
+        else
+        {
+            StaticManager.cloudSpawnerNet.StartGame();
+        }
     }
 
     private void OnDestroy()
@@ -60,14 +69,15 @@ public class MovementNet : NetworkBehaviour
     {
         if(scene.buildIndex == 2)
         {
-            Invoke("Initialize", 0.3f);
-            Invoke("CallStartGame", 0.6f);
+            print("ON Multiplayer scene loaded");
+            
         }
     }
 
     private void Initialize()
     {
-        StaticManager.cloudSpawnerNet.player = this;
+        if(isLocalPlayer)
+            StaticManager.cloudSpawnerNet.player = this;
     }
 
     private void CallStartGame()

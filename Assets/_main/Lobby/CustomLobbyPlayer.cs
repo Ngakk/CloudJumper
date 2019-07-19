@@ -16,13 +16,17 @@ public class CustomLobbyPlayer : NetworkLobbyPlayer
     public override void OnClientEnterLobby()
     {
         print("OnClientEnterLobby");
-        transform.SetParent(GameObject.Find("Canvas").transform, false);
+        GameObject canvas = GameObject.Find("Canvas");
+        if (canvas != null)
+        {
+            transform.SetParent(canvas.transform, false);
 
-        //agregamos listener al UI
-        tgl_ready.onValueChanged.AddListener(CambioReady);
-        //actualizamos nombre de jugador 
-        txt_Jugador.text = "Player " + (slot + 1).ToString();
-        OnClientReady(false);
+            //agregamos listener al UI
+            tgl_ready.onValueChanged.AddListener(CambioReady);
+            //actualizamos nombre de jugador 
+            txt_Jugador.text = "Player " + (slot + 1).ToString();
+            OnClientReady(false);
+        }
     }
 
     public override void OnClientExitLobby()

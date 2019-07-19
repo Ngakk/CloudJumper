@@ -12,7 +12,7 @@ public class CloudSpawnerNet : NetworkBehaviour
     public MovementNet player;
     public GameEndUI ui;
     public GameObject cloudPrefab;
-    private float StartingPos = 0.0f;
+    private float StartingPos = 5.0f;
     private float MaxHeight = 0.0f;
     private float MaxHeight2 = 0.0f;
     private float MaxHeight3 = 0.0f;
@@ -34,9 +34,9 @@ public class CloudSpawnerNet : NetworkBehaviour
 
     public void StartGame()
     {
-        StartingPos = player.transform.position.y;
-        MaxHeight2 = -8;
-        MaxHeight4 = -8;
+        //StartingPos = player.transform.position.y;
+        MaxHeight2 = -4;
+        MaxHeight4 = -4;
         Cmd_SpawnClouds(true);
     }
 
