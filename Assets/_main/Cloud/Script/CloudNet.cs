@@ -75,6 +75,9 @@ public class CloudNet : NetworkBehaviour
         }
     }
 
+    
+
+
     [Command]
     void Cmd_SelfDestroy()
     {

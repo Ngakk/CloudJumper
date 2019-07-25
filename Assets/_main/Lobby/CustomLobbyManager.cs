@@ -26,6 +26,11 @@ public class CustomLobbyManager : NetworkLobbyManager
         matchMaker.ListMatches(0, 10, "", true, 0, 0, OnMatchList);
     }
 
+    /*public override void OnClientSceneChanged(NetworkConnection conn)
+    {
+        
+    }
+    */
     public override void OnMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matchList)
     {
         print("OnMatchList");

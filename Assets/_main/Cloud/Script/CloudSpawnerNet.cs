@@ -13,10 +13,10 @@ public class CloudSpawnerNet : NetworkBehaviour
     public GameEndUI ui;
     public GameObject cloudPrefab;
     private float StartingPos = 5.0f;
-    private float MaxHeight = 0.0f;
-    private float MaxHeight2 = 0.0f;
-    private float MaxHeight3 = 0.0f;
-    private float MaxHeight4 = 0.0f;
+    public float MaxHeight = 0.0f;
+    public float MaxHeight2 = 0.0f;
+    public float MaxHeight3 = 0.0f;
+    public float MaxHeight4 = 0.0f;
     private float NextCloudDistance = 2.0f;
     private bool SavedStats = false;
 
@@ -74,6 +74,11 @@ public class CloudSpawnerNet : NetworkBehaviour
         }
     }
 
+    public void EndGame()
+    {
+        Debug.Log("HERE'S WHERE I END THE GAME");
+    }
+
     [Command]
     public void Cmd_SpawnClouds(bool _b)
     {
@@ -113,16 +118,23 @@ public class CloudSpawnerNet : NetworkBehaviour
             MaxHeight4 = t_height;
     }
 
-    public void SaveStats(int cloudsTouched)
+    public void SaveStats(int cloudsTouched, float height)
     {
         ui.gameObject.SetActive(true);
-        ui.SetTexts(player.CloudsTouched.ToString(), ((int)(MaxHeight - StartingPos)).ToString());
-        StaticManager.netUtilities.UpdateScore(PlayerPrefs.GetString("username"), player.CloudsTouched, (int)(MaxHeight - StartingPos));
+        ui.SetTexts(player.CloudsTouched.ToString(), ((int)(height)).ToString());
+        StaticManager.netUtilities.UpdateScore(PlayerPrefs.GetString("username"), player.CloudsTouched, (int)(height));
         Debug.Log("Savestats");
     }
 
     public void ToMainMenu()
     {
+        if (hasAuthority)
+        {
+            NetworkServer.Shutdown();
+            Destroy(NetworkLobbyManager.singleton);
+        }
         SceneManager.LoadScene(0);
     }
+
+
 }

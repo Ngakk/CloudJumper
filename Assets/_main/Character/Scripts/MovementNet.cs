@@ -185,33 +185,41 @@ public class MovementNet : NetworkBehaviour
 
         CloudsTouched++;
     }
-    
-    public void OtherPlayerLost()
-    {
-        otherLost = true;
-        if(iLost)
-        {
-            StaticManager.cloudSpawnerNet.SaveStats(CloudsTouched);
-        }
-    }
+
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Finish") && UsedJump)
         {
-            otherPlayer.OtherPlayerLost();
-            iLost = true;
-            if (otherLost)
+            if (isLocalPlayer)
             {
-                StaticManager.cloudSpawnerNet.SaveStats(CloudsTouched);
+                Camera.main.GetComponent<Follow>().stalked = otherPlayer.transform;
             }
-            else
+            if(hasAuthority)
             {
-                if(isLocalPlayer)
-                {
-                    Camera.main.GetComponent<Follow>().stalked = otherPlayer.transform;
-                }
+                Cmd_OnLost();
             }
+        }
+    }
+
+    [Command]
+    void Cmd_OnLost()
+    {
+        Rpc_OnLost(StaticManager.cloudSpawnerNet.MaxHeight, StaticManager.cloudSpawnerNet.MaxHeight3);
+    }
+
+    [ClientRpc]
+    private void Rpc_OnLost(float h1, float h2)
+    {
+        Debug.Log("kimi no kachi ne");
+        iLost = true;
+        if (iLost && otherPlayer.iLost)
+        {
+            StaticManager.cloudSpawnerNet.SaveStats(CloudsTouched, isServer ? h1 : h2);
+        }
+        else
+        {
+            Debug.Log("Owari janai");
         }
     }
 }
