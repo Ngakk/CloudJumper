@@ -152,10 +152,17 @@ public class MovementNet : NetworkBehaviour
         {
             Move();
 
-            if (Input.GetKeyDown(KeyCode.Space) && !UsedJump && canJump && otherPlayer != null)
+            if (Input.GetKeyDown(KeyCode.Space) && !UsedJump && canJump)
             {
-                Jump();
-                UsedJump = true;
+                if (otherPlayer == null)
+                {
+                    SearchPlayers();
+                }
+                if(otherPlayer != null)
+                {
+                    Jump();
+                    UsedJump = true;
+                }
             }
         }
 

@@ -128,11 +128,25 @@ public class CloudSpawnerNet : NetworkBehaviour
 
     public void ToMainMenu()
     {
-        if (hasAuthority)
+        Debug.Log("To main menu");
+        /*if (hasAuthority)
         {
             NetworkServer.Shutdown();
             Destroy(NetworkLobbyManager.singleton);
-        }
+        }*/
+
+        NetworkManager.singleton.StopMatchMaker();
+        NetworkServer.Shutdown();
+
+        Invoke("ToMainMenuDelayed", 1f);
+        
+    }
+
+    public void ToMainMenuDelayed()
+    {
+        Destroy(GameObject.FindGameObjectWithTag("CustomLobbymanager"));
+        
+
         SceneManager.LoadScene(0);
     }
 

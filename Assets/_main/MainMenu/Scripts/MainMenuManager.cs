@@ -136,7 +136,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void StartMultiplayer()
     {
-        DontDestroyOnLoad(netManager.gameObject);
+        //DontDestroyOnLoad(netManager.gameObject);
         SceneManager.LoadScene(3);
     }
 }
